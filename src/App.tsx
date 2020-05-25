@@ -1,25 +1,35 @@
-import Button from '@material-ui/core/Button';
-import green from '@material-ui/core/colors/green';
-import purple from '@material-ui/core/colors/purple';
+import './assets/css/react-grid-layout.css';
+import './assets/css/react-resizable.css';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import React from 'react';
+import React, { ReactNode } from 'react';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: purple,
-    secondary: green,
-  },
-});
+import { themeState } from './atoms';
+import NavLayout from './layouts/NavLayout';
+
+interface Props {
+  children: ReactNode;
+}
+
+const ThemeRecoilProvider = ({ children }: Props) => {
+  const theme = createMuiTheme({
+    palette: {
+      type: useRecoilValue(themeState),
+    },
+  });
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+};
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeRecoilProvider>
+        <CssBaseline />
+        <NavLayout />
+      </ThemeRecoilProvider>
+    </RecoilRoot>
   );
 }
 
