@@ -31,7 +31,7 @@ module.exports = {
   rules: {
     'compat/compat': 'warn',
     'simple-import-sort/sort': 'warn',
-    semi: ['error', 'always', { omitLastInOneLineBlock: true }],
+    'semi': ['error', 'always', { omitLastInOneLineBlock: true }],
     '@typescript-eslint/no-use-before-define': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off',
   },
