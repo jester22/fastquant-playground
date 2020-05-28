@@ -1,21 +1,19 @@
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles } from '@material-ui/core/styles';
 import InsertChartIcon from '@material-ui/icons/InsertChart';
 import React from 'react';
 import { DragSourceMonitor, useDrag } from 'react-dnd';
 import { useSetRecoilState } from 'recoil';
+import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { gridState } from '../atoms';
 import { GridItem } from '../types/types';
 
-const useStyles = makeStyles({
-  root: {
-    opacity: (props: { opacity: number }) => props.opacity,
-  },
-});
+const StyledListItem = styled(ListItem)<{ isDragging: boolean }>`
+  opacity: ${({ isDragging }: { isDragging: boolean }) => (isDragging ? 0.4 : 1)};
+`;
 
 const ChartItem = () => {
   const setGridState = useSetRecoilState(gridState);
@@ -42,17 +40,13 @@ const ChartItem = () => {
       isDragging: monitor.isDragging(),
     }),
   });
-  const opacity = isDragging ? 0.4 : 1;
-  const classes = useStyles({
-    opacity,
-  });
   return (
-    <ListItem className={classes.root} ref={drag} button key="Disclosures">
+    <StyledListItem isDragging={isDragging} ref={drag} button key="Disclosures">
       <ListItemIcon>
         <InsertChartIcon />
       </ListItemIcon>
       <ListItemText primary="Disclosures" />
-    </ListItem>
+    </StyledListItem>
   );
 };
 
