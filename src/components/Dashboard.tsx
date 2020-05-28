@@ -2,6 +2,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
+import { useRecoilValue } from 'recoil';
+
+import { gridState } from '../atoms';
+import { GridItem } from '../types/types';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -23,13 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = () => {
-  const layouts = {
-    lg: [
-      { i: 'a', x: 0, y: 0, w: 2, h: 2 },
-      { i: 'b', x: 1, y: 0, w: 1, h: 4 },
-      { i: 'c', x: 2, y: 0, w: 1, h: 2 },
-    ],
-  };
+  const widgets = useRecoilValue(gridState);
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'component',
     collect: (monitor) => ({
@@ -49,13 +47,14 @@ const Dashboard = () => {
         rowHeight={30}
         width={1200}
         className={classes.layout}
-        layouts={layouts}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
       >
-        <div key="1">1</div>
-        <div key="2">2</div>
-        <div key="3">3</div>
+        {widgets.map((o: GridItem) => (
+          <div key={o.id} data-grid={{ x: o.x, y: o.y, w: o.w, h: o.h }}>
+            {o.id}
+          </div>
+        ))}
       </ResponsiveGridLayout>
     </div>
   );
