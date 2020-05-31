@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
-import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
-import { useRecoilValue } from 'recoil';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { gridState } from '../atoms';
+import { gridListState, gridState } from '../atoms';
 import { GridItem } from '../types/types';
 
 interface Props {
@@ -12,7 +12,10 @@ interface Props {
   canDrop: boolean;
 }
 
-const StyledResponsiveGridLayout = styled(ResponsiveGridLayout)<Props>`
+const ResponsiveGridLayout = WidthProvider(Responsive);
+
+const Container = styled.div<Props>`
+  height: 100%;
   background-color: ${({ isActive, canDrop, theme }) => {
     if (isActive) return theme.palette.grey[500];
     if (canDrop) return theme.palette.grey[500];
@@ -20,8 +23,13 @@ const StyledResponsiveGridLayout = styled(ResponsiveGridLayout)<Props>`
   }};
 `;
 
+const GridItemContainer = styled.div`
+  background-color: red;
+`;
+
 const Dashboard = () => {
-  const widgets = useRecoilValue(gridState);
+  const widgets = useRecoilValue(gridListState);
+  const setGridState = useSetRecoilState(gridState);
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'component',
     collect: (monitor) => ({
@@ -31,23 +39,23 @@ const Dashboard = () => {
   });
   const isActive = canDrop && isOver;
 
+  function onBreakpointChange(breakpoint: string, cols: number) {
+    setGridState({
+      breakpoint,
+      cols,
+    });
+  }
+
   return (
-    <div ref={drop}>
-      <StyledResponsiveGridLayout
-        isActive={isActive}
-        canDrop={canDrop}
-        rowHeight={30}
-        width={1200}
-        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-      >
+    <Container ref={drop} isActive={isActive} canDrop={canDrop}>
+      <ResponsiveGridLayout rowHeight={30} width={1200} cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }} onBreakpointChange={onBreakpointChange}>
         {widgets.map((o: GridItem) => (
-          <div key={o.id} data-grid={{ x: o.x, y: o.y, w: o.w, h: o.h }}>
+          <GridItemContainer key={o.id} data-grid={{ x: o.x, y: o.y, w: o.w, h: o.h }}>
             {o.id}
-          </div>
+          </GridItemContainer>
         ))}
-      </StyledResponsiveGridLayout>
-    </div>
+      </ResponsiveGridLayout>
+    </Container>
   );
 };
 

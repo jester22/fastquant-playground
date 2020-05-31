@@ -5,7 +5,12 @@ export const themeState = atom({
   default: 'light',
 });
 
+export const gridListState = atom({
+  key: 'gridListState',
+  default: [],
+});
+
 export const gridState = atom({
   key: 'gridState',
-  default: [],
+  default: { cols: 12, breakpoint: '' },
 });

@@ -5,3 +5,8 @@ export interface GridItem {
   w: number;
   h: number;
 }
+
+export interface GridStateProps {
+  cols: number;
+  breakpoint: string;
+}
