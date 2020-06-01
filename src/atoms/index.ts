@@ -14,3 +14,12 @@ export const gridState = atom({
   key: 'gridState',
   default: { cols: 12, breakpoint: '' },
 });
+
+export const itemState = (id: string) =>
+  atom({
+    key: id,
+    default: {
+      width: 0,
+      height: 0,
+    },
+  });

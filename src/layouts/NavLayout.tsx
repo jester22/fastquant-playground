@@ -6,8 +6,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import ChartItem from '../components/ChartItem';
-import Dashboard from '../components/Dashboard';
 import ThemeSwitcher from '../components/ThemeSwitcher';
+import Dashboard from './Dashboard';
 
 const Container = styled.div`
   display: flex;

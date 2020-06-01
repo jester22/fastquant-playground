@@ -1,4 +1,4 @@
-export interface GridItem {
+export interface GridItemProps {
   id: string;
   x: number;
   y: number;

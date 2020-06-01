@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { gridListState, gridState } from '../atoms';
-import { GridItem } from '../types/types';
+import { GridItemProps } from '../types/types';
 
 interface Props {
   isDragging: boolean;
@@ -28,14 +28,14 @@ const ChartItem = () => {
     end: (item: { name: string } | undefined, monitor: DragSourceMonitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
-        setGridListState((oldGridListState: GridItem[]) => [
+        setGridListState((oldGridListState: GridItemProps[]) => [
           ...oldGridListState,
           {
             id: uuidv4(),
             x: (oldGridListState.length * 2) % (cols || 12),
             y: Infinity,
-            w: 2,
-            h: 2,
+            w: 6,
+            h: 10,
           },
         ]);
       }

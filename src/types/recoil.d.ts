@@ -1,10 +1,3 @@
 declare module 'recoil' {
-  export {
-    atom,
-    useRecoilState,
-    RecoilRoot,
-    useRecoilValue,
-    useSetRecoilState,
-    selector,
-  };
+  export { atom, useRecoilState, RecoilRoot, useRecoilValue, useSetRecoilState, selector, useRecoilCallback };
 }
