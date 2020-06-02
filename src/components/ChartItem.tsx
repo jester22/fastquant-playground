@@ -9,23 +9,27 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { gridListState, gridState } from '../atoms';
-import { GridItemProps } from '../types/types';
+import { ChartTypes, GridItemProps } from '../types/types';
 
-interface Props {
+interface ContainerProps {
   isDragging: boolean;
 }
 
-const Container = styled.div<Props>`
+const Container = styled.div<ContainerProps>`
   opacity: ${({ isDragging }) => (isDragging ? 0.4 : 1)};
 `;
 
-const ChartItem = () => {
+interface Props {
+  text: string;
+  type: ChartTypes;
+}
+
+const ChartItem = ({ text, type }: Props) => {
   const setGridListState = useSetRecoilState(gridListState);
   const { cols } = useRecoilValue(gridState);
-  const name = 'Disclosures';
   const [{ isDragging }, drag] = useDrag({
-    item: { name, type: 'component' },
-    end: (item: { name: string } | undefined, monitor: DragSourceMonitor) => {
+    item: { type: 'component' },
+    end: (item, monitor: DragSourceMonitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
         setGridListState((oldGridListState: GridItemProps[]) => [
@@ -36,6 +40,7 @@ const ChartItem = () => {
             y: Infinity,
             w: 6,
             h: 10,
+            type,
           },
         ]);
       }
@@ -46,11 +51,11 @@ const ChartItem = () => {
   });
   return (
     <Container isDragging={isDragging}>
-      <ListItem ref={drag} button key="Disclosures">
+      <ListItem ref={drag} button>
         <ListItemIcon>
           <InsertChartIcon />
         </ListItemIcon>
-        <ListItemText primary="Disclosures" />
+        <ListItemText primary={text} />
       </ListItem>
     </Container>
   );

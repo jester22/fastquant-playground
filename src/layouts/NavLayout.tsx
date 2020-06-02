@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import ChartItem from '../components/ChartItem';
 import ThemeSwitcher from '../components/ThemeSwitcher';
+import { ChartTypes } from '../types/types';
 import Dashboard from './Dashboard';
 
 const Container = styled.div`
@@ -49,7 +50,8 @@ export default function MyDrawer() {
         <Grid item xs={2}>
           <Drawer>
             <List>
-              <ChartItem />
+              <ChartItem text="Disclosure" type={ChartTypes.DISCLOSURE} />
+              <ChartItem text="Network" type={ChartTypes.NETWORK} />
             </List>
           </Drawer>
         </Grid>
