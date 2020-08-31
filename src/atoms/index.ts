@@ -1,11 +1,13 @@
 import { atom } from 'recoil';
 
-export const themeState = atom({
+import { GridItemProps, ThemeTypes } from '../types';
+
+export const themeState = atom<ThemeTypes>({
   key: 'themeState',
-  default: 'light',
+  default: ThemeTypes.LIGHT,
 });
 
-export const gridListState = atom({
+export const gridListState = atom<GridItemProps[]>({
   key: 'gridListState',
   default: [],
 });
@@ -23,3 +25,8 @@ export const itemState = (id: string) =>
       height: 0,
     },
   });
+
+export const selectedWidgetItemIDState = atom({
+  key: 'selectedWidgetItemState',
+  default: '',
+});

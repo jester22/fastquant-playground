@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { gridListState, gridState, itemState } from '../atoms';
 import GridItem from '../components/GridItem';
-import { GridItemProps } from '../types/types';
+import { GridItemProps } from '../types';
 
 interface Props {
   isActive: boolean;
@@ -51,8 +51,9 @@ const Dashboard = () => {
     async ({ set }, layout: Layout[], oldItem: Layout, newItem: Layout, placeholder: Layout, event: MouseEvent, element: HTMLElement) => {
       const id = element.parentElement?.id;
       setTimeout(() => {
-        const width = element.parentElement?.style.width.replace('px', '');
-        const height = element.parentElement?.style.height.replace('px', '');
+        const rect = element.parentElement?.getBoundingClientRect();
+        const width = rect ? rect.width : 0;
+        const height = rect ? rect.height : 0;
         set(itemState(id ? id : ''), { width, height });
       }, 0);
     }

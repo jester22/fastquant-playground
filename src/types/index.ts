@@ -1,3 +1,8 @@
+export enum ThemeTypes {
+  DARK = 'dark',
+  LIGHT = 'light',
+}
+
 export enum ChartTypes {
   DISCLOSURE = 'DISCLOSURE',
   NETWORK = 'NETWORK',
